@@ -33,12 +33,12 @@ using namespace std;
 // {
 // }
 
-// biblioteca::~biblioteca()
+// biblioteca::~biblioteca() // destructor
 // {
 // }
 
 class Livro {
-    private:
+    protected:
     // atributos título, autor e gênero são privados
         string titulo;
         string autor;
@@ -69,19 +69,49 @@ class Livro {
         void soltar();  // definição fora da classe
 };
 
-Livro::Livro(string tit, string aut, string gen){
+Livro::Livro(string tit, string aut, string gen)
+{
     titulo = tit;
     autor = aut;
     genero = gen;
 }
 
-void Livro::soltar(/* args */) {
+void Livro::soltar(/* args */)
+{
     cout << "Bum! Caiu no chão" << endl;
 }
 
-/* MEMBRO */
-class Membro
+class Periodico : public Livro{
+	private:
+		int issn;
+	public:
+        Periodico(string tit, string aut, string gen, int issn_num);// construtor
+		int get_issn(){
+			return issn;
+		}
+};
+Periodico::Periodico(string tit, string aut, string gen, int issn_num):Livro(tit, aut, gen)
 {
+    issn = issn_num;
+}
+
+class LivroDigital : public Livro{
+    private:
+	    string doi;
+    public:
+        LivroDigital(string tit, string aut, string gen, string doi_num);// construtor
+	    string get_doi(){
+		return doi;
+	    }
+};
+
+LivroDigital::LivroDigital(string tit, string aut, string gen, string doi_num):Livro(tit, aut, gen)
+{
+    doi = doi_num;
+}
+
+/* MEMBRO */
+class Membro{
 private:
     string nome;
     int id;
@@ -98,7 +128,8 @@ public:
      }
 };
 
-Membro::Membro(string name, int number){
+Membro::Membro(string name, int number)
+{
     nome = name;
     id = number;
 }
@@ -114,17 +145,40 @@ Membro::Membro(string name, int number){
 
     Biblioteca
     pode ser criada só uma instância e ela tem vários registros de empréstimo */
+class Emprestimo{
+    protected:
+        Membro membro;
+        Livro livro;
+    public:
+        Emprestimo(Membro emprestador, Livro emprestado);
+};
+
+Emprestimo::Emprestimo(Membro emprestador, Livro emprestado){
+    membro = emprestador;
+    livro = emprestado;
+}
 
 int main(){
     // objeto hobbit da classe livro, definindo atributos com o construtor da classe
     Livro hobbit("O Hobbit", "J. R. R. Tolkien", "Fantasia");
     Membro john("John Doe", 42);
+    LivroDigital divergente("Divergente", "Veranica Roth", "Drama", "10.1590/S0104-40362020002803115");
+    Periodico revista_nature("Nature", "Nature Publishing Group", "Ciência", 14764687); // Exemplo de uso de Periódico
     
-    hobbit.ler(); // chamando um método
+    divergente.ler(); // chamando um método
     hobbit.soltar(); // outro método
 
     // get título e autor
-    cout << "Livro 1\t\t" << hobbit.get_titulo() << ": " << hobbit.get_autor() << endl;
+    cout << "Livro 1\t\t" << hobbit.get_titulo() << ": " << hobbit.get_autor()
+         << endl;
+    
     cout << "Membro " << john.get_id() << ": " << john.get_nome() << endl;
+    
+    cout << "Livro 2\t\t" << divergente.get_titulo() << ": "
+         << divergente.get_autor() << " DOI: " << divergente.get_doi() << endl;
+    
+         cout << "Periódico\t" << revista_nature.get_titulo()
+         << " (" << revista_nature.get_autor() << ") - ISSN: "
+         << revista_nature.get_issn() << endl;
     return 0;
 }
