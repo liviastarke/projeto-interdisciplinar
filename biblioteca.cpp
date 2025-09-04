@@ -18,22 +18,24 @@ Físico e Livro digital, com atributos e métodos específicos.*                
 #include <iostream>
 
 using namespace std;
-class biblioteca
-{
-private:
-    /* data */
-public:
-    biblioteca(/* args */);
-    ~biblioteca();
-};
 
-biblioteca::biblioteca(/* args */)
-{
-}
+// modelo de classe
+// class biblioteca
+// {
+// private:
+//     /* data */
+// public:
+//     biblioteca(/* args */);
+//     ~biblioteca();
+// };
 
-biblioteca::~biblioteca()
-{
-}
+// biblioteca::biblioteca(/* args */)
+// {
+// }
+
+// biblioteca::~biblioteca()
+// {
+// }
 
 class Livro {
     private:
@@ -77,14 +79,52 @@ void Livro::soltar(/* args */) {
     cout << "Bum! Caiu no chão" << endl;
 }
 
+/* MEMBRO */
+class Membro
+{
+private:
+    string nome;
+    int id;
+public:
+    Membro(string name, int number); // construtor
+
+     // getters
+     string get_nome(){
+         return nome;
+     }
+
+     int get_id(){
+         return id;
+     }
+};
+
+Membro::Membro(string name, int number){
+    nome = name;
+    id = number;
+}
+
+
+/* EMPRÉSTIMO ou BIBLIOTECA
+    Empréstimo
+    Atributos data de empréstimo, data esperada / efetiva de devolução,
+    que membro que emprestou, qual livro.
+    data de esperada devolução = empréstimo + 7 dias
+    Métodos: emprestar() (não sei se precisa) e devolver(). Cada empréstimo
+    é um objeto
+
+    Biblioteca
+    pode ser criada só uma instância e ela tem vários registros de empréstimo */
+
 int main(){
     // objeto hobbit da classe livro, definindo atributos com o construtor da classe
     Livro hobbit("O Hobbit", "J. R. R. Tolkien", "Fantasia");
+    Membro john("John Doe", 42);
     
     hobbit.ler(); // chamando um método
     hobbit.soltar(); // outro método
 
     // get título e autor
     cout << "Livro 1\t\t" << hobbit.get_titulo() << ": " << hobbit.get_autor() << endl;
+    cout << "Membro " << john.get_id() << ": " << john.get_nome() << endl;
     return 0;
 }
